@@ -77,7 +77,7 @@ async def on_message(message):
             await message.reply('+xp')
 
     # Check if the message contains a nubank-related word
-    messages = ['clojure', 'nubank', 'roxinho', 'nu bank', 'nubenqui', 'nub ank', 'nuba nk', 'nuba', 'cloj', 'pelado bank', 'n u b a n k', 'c l o j u r e', 'n.u.b.a.n.k', 'c.l.o.j.u.r.e', 'n_u_b', 'c_l_o', 'naked b', 'nu_']
+    messages = ['roxinho', 'nu bank', 'nubenqui', 'nub ank', 'nuba', 'cloj', 'pelado bank', 'n u b a n k', 'c l o j u r e', 'n.u.b.a.n.k', 'c.l.o.j.u.r.e', 'n_u_b', 'c_l_o', 'naked b', 'nu_']
     for msg in messages:
         if (msg in message.content.lower()) and (not on_cooldown(message.author.id)):
             # Send an image in response
