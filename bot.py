@@ -5,13 +5,49 @@ from PIL import Image
 import time
 import numpy as np
 from dotenv import load_dotenv
+import json
+import sys
+import re
 
 load_dotenv()
 
-COOLDOWN = 60
 cooldowns = {}
 adm_id = int(os.environ["ADM_ID"])
 mod_id = []
+
+if os.path.exists('pai_config.json'):
+    with open('pai_config.json', 'r') as config_file:
+        config = json.load(config_file)
+else:
+    print('Error: config file not found')
+    sys.exit(1)
+
+# Load cooldown configuration
+COOLDOWN = config.get("cooldown", 120)
+
+# Load Nubank configuration
+nubank_config = config.get("nubank_config", {})
+nubank_enabled = nubank_config.get("enabled", False)
+nubank_keywords = nubank_config.get("keywords", [])
+nubank_image_name = nubank_config.get("image_name", "")
+
+# Load Inter configuration
+inter_config = config.get("inter_config", {})
+inter_enabled = inter_config.get("enabled", False)
+inter_keywords = inter_config.get("keywords", [])
+inter_image_name = inter_config.get("image_name", "")
+
+# Load Java configuration
+java_config = config.get("java_config", {})
+java_enabled = java_config.get("enabled", False)
+java_keywords = java_config.get("keywords", [])
+java_image_name = java_config.get("image_name", "")
+
+# Load Rust configuration
+rust_config = config.get("rust_config", {})
+rust_enabled = rust_config.get("enabled", False)
+rust_keywords = rust_config.get("keywords", [])
+rust_gif_address = rust_config.get("gif_address", "")
 
 def on_cooldown(id):
     if id == adm_id:
@@ -29,7 +65,6 @@ def flood_msg_check():
         return True
     else:
         return False
-    
 
 # INTENTS
 intents = discord.Intents.default()
@@ -76,44 +111,50 @@ async def on_message(message):
         elif "pai xp" in message.content.lower():
             await message.reply('+xp')
 
-    # Check if the message contains a nubank-related word
-    messages = ['roxinho', 'nu bank', 'nubenqui', 'nub ank', 'nuba', 'cloj', 'pelado bank', 'n u b a n k', 'c l o j u r e', 'n.u.b.a.n.k', 'c.l.o.j.u.r.e', 'n_u_b', 'c_l_o', 'naked b', 'nu_']
-    for msg in messages:
-        if (msg in message.content.lower()) and (not on_cooldown(message.author.id)):
-            # Send an image in response
-            image_path = os.environ['img_path'] + 'Nubank.jpg'
-            with open(image_path, 'rb') as image_file:
-                image = discord.File(image_file)
-                await message.reply('pow, filhão', file=image)
-            break
-        elif msg in message.content.lower() and flood_msg_check():
-            await message.reply('para de floodar seu desgraçado')
-            break
+    if nubank_enabled:
+        for keyword in nubank_keywords:
+            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
+                # Send an image in response
+                image_path = os.environ['img_path'] + nubank_image_name
+                with open(image_path, 'rb') as image_file:
+                    image = discord.File(image_file)
+                    await message.reply('pow, filhão', file=image)
+                return
+            elif keyword in message.content.lower() and flood_msg_check():
+                await message.reply('para de floodar seu desgraçado')
 
-    # check for inter
-    if 'inter ' in message.content.lower() and (not on_cooldown(message.author.id)):
-        image_path = os.environ['IMG_PATH'] + 'inter.png'
-        print(image_path)
-        with open(image_path, 'rb') as image_file:
-            image = discord.File(image_file)
-            await message.reply('pow, filhão', file=image)
-    elif 'inter ' in message.content.lower() and flood_msg_check():
-        await message.reply('para de floodar seu desgraçado')
+    if inter_enabled:
+        for keyword in inter_keywords:
+            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
+                # Send an image in response
+                image_path = os.environ['img_path'] + inter_image_name
+                with open(image_path, 'rb') as image_file:
+                    image = discord.File(image_file)
+                    await message.reply('pow, filhão', file=image)
+                return
+            elif keyword in message.content.lower() and flood_msg_check():
+                await message.reply('para de floodar seu desgraçado')
 
-    # check for rust
-    if 'rust' in message.content.lower() and (not on_cooldown(message.author.id)):
-        await message.reply('https://tenor.com/view/rust-femboy-rust-femboy-programming-rust-programming-gif-27321790')
-    elif 'rust' in message.content.lower() and flood_msg_check():
-        await message.reply('para de floodar seu desgraçado')
+    if java_enabled:
+        for keyword in java_keywords:
+            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
+                # Send an image in response
+                image_path = os.environ['img_path'] + java_image_name
+                with open(image_path, 'rb') as image_file:
+                    image = discord.File(image_file)
+                    await message.reply('pow, filhão', file=image)
+                return
+            elif keyword in message.content.lower() and flood_msg_check():
+                await message.reply('para de floodar seu desgraçado')
 
-    # check for java
-    if ((message.content.lower() == 'java') or ('java ' in message.content.lower())) and (not on_cooldown(message.author.id)):
-        image_path = os.environ['img_path'] + 'java.png'
-        with open(image_path, 'rb') as image_file:
-            image = discord.File(image_file)
-            await message.reply('java kkkkkk', file=image)
-    elif 'java' in message.content.lower() and flood_msg_check():
-        await message.reply('para de floodar seu desgraçado')
+    if rust_enabled:
+        for keyword in rust_keywords:
+            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
+                # Send an gif in response
+                await message.reply(rust_gif_address)
+                return
+            elif keyword in message.content.lower() and flood_msg_check():
+                await message.reply('para de floodar seu desgraçado')
 
     # check for mention
     if bot.user.mentioned_in(message) and (not on_cooldown(message.author.id)):
@@ -128,7 +169,6 @@ async def on_message(message):
         await message.reply('para de floodar seu desgraçado')
 
     await bot.process_commands(message)
-
 
 @bot.slash_command(
     name="paidocs",
