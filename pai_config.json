@@ -1,0 +1,41 @@
+{
+  "cooldown": 60,
+  "nubank_config": {
+    "enabled": true,
+    "keywords": [
+      "roxinho",
+      "nu bank",
+      "nubenqui",
+      "nub ank",
+      "nuba",
+      "cloj",
+      "pelado bank",
+      "n u b a n k",
+      "c l o j u r e",
+      "n.u.b.a.n.k",
+      "c.l.o.j.u.r.e",
+      "n_u_b",
+      "c_l_o",
+      "naked b",
+      "nu_"
+    ],
+    "image_name": "Nubank.jpg"
+  },
+  "inter_config": {
+    "enabled": true,
+    "keywords": ["inter"],
+    "image_name": "inter.png"
+  },
+  "java_config": {
+    "enabled": true,
+    "keywords": ["java"],
+    "image_name": "java.png"
+  },
+  "rust_config": {
+    "enabled": true,
+    "keywords": ["rust"],
+    "gif_address": "https://tenor.com/view/rust-femboy-rust-femboy-programming-rust-programming-gif-27321790"
+  }
+}
+
+
