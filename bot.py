@@ -33,7 +33,7 @@ if configurations is not None:
         "name": configuration.get("name", ""),
         "enabled": configuration.get("enabled", False),
         "keywords": configuration.get("keywords", []),
-        "image_name": configuration.get("image_name", "")
+        "image_name": configuration.get("image_name", ""),
         "custom_message": configuration.get("custom_message", "")
     }) for configuration in configurations]
 
@@ -102,10 +102,10 @@ async def on_message(message):
     for config_instance in configs_list:
         if config_instance["enabled"]:
             re_lst = r"\b(?:{})\b".format("|".join(config_instance["keywords"]))
-            match_word = re.search(re_lst, message_content.lower())
+            match_word = re.search(re_lst, message.content.lower())
 
-            if match_word and (not on_cooldown(message.author.id))
-                with open("./assets/" + config_instance["image_name"], 'rb') as image_file:
+            if match_word and (not on_cooldown(message.author.id)):
+                with open(os.environ['IMG_PATH'] + config_instance["image_name"], 'rb') as image_file:
                         image = discord.File(image_file)
                         await message.reply(config_instance["custom_message"], file=image)
                         return
@@ -131,7 +131,7 @@ async def on_message(message):
     description="documentação do pai"
 )
 async def paidocs(ctx):
-    await ctx.respond("PAI BOT\n\n*Comandos*\n1- paibot docs: Documentação Oficial do papai'")
+    await ctx.respond("PAI BOT\n\n*Comandos*\n1- paibot docs: Documentação Oficial do papai")
 
 # Start the bot
 bot.run(TOKEN)
