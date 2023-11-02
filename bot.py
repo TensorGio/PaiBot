@@ -142,7 +142,7 @@ async def on_message(message):
                 image_path = os.environ['img_path'] + java_image_name
                 with open(image_path, 'rb') as image_file:
                     image = discord.File(image_file)
-                    await message.reply('pow, filhão', file=image)
+                    await message.reply('java kkkkkk', file=image)
                 return
             elif keyword in message.content.lower() and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
