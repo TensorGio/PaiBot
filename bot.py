@@ -27,13 +27,15 @@ COOLDOWN = config.get("cooldown", 120)
 
 # Load configurations
 configurations = config.get("configs")
-configs_list = [dict({
-                        "name": configuration.get("name", ""),
-                        "enabled": configuration.get("enabled", False),
-                        "keywords": configuration.get("keywords", []),
-                        "image_name": configuration.get("image_name", "")
-                        "custom_message": configuration.get("custom_message", "")
-                    }) for configuration in configurations]
+
+if configurations is not None:
+    configs_list = [dict({
+        "name": configuration.get("name", ""),
+        "enabled": configuration.get("enabled", False),
+        "keywords": configuration.get("keywords", []),
+        "image_name": configuration.get("image_name", "")
+        "custom_message": configuration.get("custom_message", "")
+    }) for configuration in configurations]
 
 def on_cooldown(id):
     if id == adm_id:
@@ -103,8 +105,7 @@ async def on_message(message):
             match_word = re.search(re_lst, message_content.lower())
 
             if match_word and (not on_cooldown(message.author.id))
-                image_path = os.environ['img_path'] + config_instance["image_name"]
-                with open(image_path, 'rb') as image_file:
+                with open("./assets/" + config_instance["image_name"], 'rb') as image_file:
                         image = discord.File(image_file)
                         await message.reply(config_instance["custom_message"], file=image)
                         return
