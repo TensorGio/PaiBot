@@ -49,6 +49,12 @@ rust_enabled = rust_config.get("enabled", False)
 rust_keywords = rust_config.get("keywords", [])
 rust_gif_address = rust_config.get("gif_address", "")
 
+# Load Requisitos configuration
+requisitos_config = config.get("requisitos_config", {})
+requisitos_enabled = requisitos_config.get("enabled", False)
+requisitos_keywords = requisitos_config.get("keywords", [])
+requisitos_image_name = requisitos_config.get("image_name", "")
+
 def on_cooldown(id):
     if id == adm_id:
         return False
@@ -142,7 +148,7 @@ async def on_message(message):
                 image_path = os.environ['img_path'] + java_image_name
                 with open(image_path, 'rb') as image_file:
                     image = discord.File(image_file)
-                    await message.reply('pow, filhão', file=image)
+                    await message.reply('java kkkkkk', file=image)
                 return
             elif keyword in message.content.lower() and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
@@ -152,6 +158,18 @@ async def on_message(message):
             if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
                 # Send an gif in response
                 await message.reply(rust_gif_address)
+                return
+            elif keyword in message.content.lower() and flood_msg_check():
+                await message.reply('para de floodar seu desgraçado')
+
+    if requisitos_enabled:
+        for keyword in requisitos_keywords:
+            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
+                # Send an image in response
+                image_path = os.environ['img_path'] + requisitos_image_name
+                with open(image_path, 'rb') as image_file:
+                    image = discord.File(image_file)
+                    await message.reply('pow, filhão', file=image)
                 return
             elif keyword in message.content.lower() and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
