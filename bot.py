@@ -126,7 +126,7 @@ async def on_message(message):
                     image = discord.File(image_file)
                     await message.reply('pow, filhão', file=image)
                 return
-            elif keyword in message.content.lower() and flood_msg_check():
+            elif re.search(r'\b' + keyword + r'\b', message.content.lower()) and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     if inter_enabled:
@@ -138,7 +138,7 @@ async def on_message(message):
                     image = discord.File(image_file)
                     await message.reply('pow, filhão', file=image)
                 return
-            elif keyword in message.content.lower() and flood_msg_check():
+            elif re.search(r'\b' + keyword + r'\b', message.content.lower()) and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     if java_enabled:
@@ -150,7 +150,7 @@ async def on_message(message):
                     image = discord.File(image_file)
                     await message.reply('java kkkkkk', file=image)
                 return
-            elif keyword in message.content.lower() and flood_msg_check():
+            elif re.search(r'\b' + keyword + r'\b', message.content.lower()) and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     if rust_enabled:
@@ -159,7 +159,7 @@ async def on_message(message):
                 # Send an gif in response
                 await message.reply(rust_gif_address)
                 return
-            elif keyword in message.content.lower() and flood_msg_check():
+            elif re.search(r'\b' + keyword + r'\b', message.content.lower()) and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     if requisitos_enabled:
@@ -171,7 +171,7 @@ async def on_message(message):
                     image = discord.File(image_file)
                     await message.reply('pow, filhão', file=image)
                 return
-            elif keyword in message.content.lower() and flood_msg_check():
+            elif re.search(r'\b' + keyword + r'\b', message.content.lower()) and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     # check for mention
@@ -197,3 +197,4 @@ async def paidocs(ctx):
 
 # Start the bot
 bot.run(TOKEN)
+
