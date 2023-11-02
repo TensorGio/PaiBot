@@ -175,7 +175,7 @@ async def on_message(message):
     description="documentação do pai"
 )
 async def paidocs(ctx):
-    await ctx.send("PAI BOT\n\n*Comandos*\n1- paibot docs: Documentação Oficial do papai'")
+    await ctx.respond("PAI BOT\n\n*Comandos*\n1- paibot docs: Documentação Oficial do papai'")
 
 # Start the bot
 bot.run(TOKEN)
