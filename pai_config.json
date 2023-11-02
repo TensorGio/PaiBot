@@ -17,7 +17,8 @@
       "n_u_b",
       "c_l_o",
       "naked b",
-      "nu_"
+      "nu_",
+      "nubank"
     ],
     "image_name": "Nubank.jpg"
   },
@@ -35,7 +36,10 @@
     "enabled": true,
     "keywords": ["rust"],
     "gif_address": "https://tenor.com/view/rust-femboy-rust-femboy-programming-rust-programming-gif-27321790"
+  },
+  "requisitos_config": {
+    "enabled": true,
+    "keywords": ["requisitos", "requisito"],
+    "image_name": "requisito.png"
   }
 }
-
-
