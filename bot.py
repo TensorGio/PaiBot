@@ -25,35 +25,17 @@ else:
 # Load cooldown configuration
 COOLDOWN = config.get("cooldown", 120)
 
-# Load Nubank configuration
-nubank_config = config.get("nubank_config", {})
-nubank_enabled = nubank_config.get("enabled", False)
-nubank_keywords = nubank_config.get("keywords", [])
-nubank_image_name = nubank_config.get("image_name", "")
+# Load configurations
+configurations = config.get("configs")
 
-# Load Inter configuration
-inter_config = config.get("inter_config", {})
-inter_enabled = inter_config.get("enabled", False)
-inter_keywords = inter_config.get("keywords", [])
-inter_image_name = inter_config.get("image_name", "")
-
-# Load Java configuration
-java_config = config.get("java_config", {})
-java_enabled = java_config.get("enabled", False)
-java_keywords = java_config.get("keywords", [])
-java_image_name = java_config.get("image_name", "")
-
-# Load Rust configuration
-rust_config = config.get("rust_config", {})
-rust_enabled = rust_config.get("enabled", False)
-rust_keywords = rust_config.get("keywords", [])
-rust_gif_address = rust_config.get("gif_address", "")
-
-# Load Requisitos configuration
-requisitos_config = config.get("requisitos_config", {})
-requisitos_enabled = requisitos_config.get("enabled", False)
-requisitos_keywords = requisitos_config.get("keywords", [])
-requisitos_image_name = requisitos_config.get("image_name", "")
+if configurations is not None:
+    configs_list = [dict({
+        "name": configuration.get("name", ""),
+        "enabled": configuration.get("enabled", False),
+        "keywords": configuration.get("keywords", []),
+        "image_name": configuration.get("image_name", "")
+        "custom_message": configuration.get("custom_message", "")
+    }) for configuration in configurations]
 
 def on_cooldown(id):
     if id == adm_id:
@@ -117,61 +99,17 @@ async def on_message(message):
         elif "pai xp" in message.content.lower():
             await message.reply('+xp')
 
-    if nubank_enabled:
-        for keyword in nubank_keywords:
-            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
-                # Send an image in response
-                image_path = os.environ['img_path'] + nubank_image_name
-                with open(image_path, 'rb') as image_file:
-                    image = discord.File(image_file)
-                    await message.reply('pow, filhão', file=image)
-                return
-            elif keyword in message.content.lower() and flood_msg_check():
-                await message.reply('para de floodar seu desgraçado')
+    for config_instance in configs_list:
+        if config_instance["enabled"]:
+            re_lst = r"\b(?:{})\b".format("|".join(config_instance["keywords"]))
+            match_word = re.search(re_lst, message_content.lower())
 
-    if inter_enabled:
-        for keyword in inter_keywords:
-            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
-                # Send an image in response
-                image_path = os.environ['img_path'] + inter_image_name
-                with open(image_path, 'rb') as image_file:
-                    image = discord.File(image_file)
-                    await message.reply('pow, filhão', file=image)
-                return
-            elif keyword in message.content.lower() and flood_msg_check():
-                await message.reply('para de floodar seu desgraçado')
-
-    if java_enabled:
-        for keyword in java_keywords:
-            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
-                # Send an image in response
-                image_path = os.environ['img_path'] + java_image_name
-                with open(image_path, 'rb') as image_file:
-                    image = discord.File(image_file)
-                    await message.reply('java kkkkkk', file=image)
-                return
-            elif keyword in message.content.lower() and flood_msg_check():
-                await message.reply('para de floodar seu desgraçado')
-
-    if rust_enabled:
-        for keyword in rust_keywords:
-            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
-                # Send an gif in response
-                await message.reply(rust_gif_address)
-                return
-            elif keyword in message.content.lower() and flood_msg_check():
-                await message.reply('para de floodar seu desgraçado')
-
-    if requisitos_enabled:
-        for keyword in requisitos_keywords:
-            if re.search(r'\b' + keyword + r'\b', message.content.lower()) and (not on_cooldown(message.author.id)):
-                # Send an image in response
-                image_path = os.environ['img_path'] + requisitos_image_name
-                with open(image_path, 'rb') as image_file:
-                    image = discord.File(image_file)
-                    await message.reply('pow, filhão', file=image)
-                return
-            elif keyword in message.content.lower() and flood_msg_check():
+            if match_word and (not on_cooldown(message.author.id))
+                with open("./assets/" + config_instance["image_name"], 'rb') as image_file:
+                        image = discord.File(image_file)
+                        await message.reply(config_instance["custom_message"], file=image)
+                        return
+            elif match_word and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
     # check for mention
