@@ -1,0 +1,7 @@
+py-cord
+psutil
+python-dotenv
+Pillow
+numpy
+
+
