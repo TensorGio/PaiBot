@@ -103,6 +103,7 @@ async def on_message(message):
             match_word = re.search(re_lst, message_content.lower())
 
             if match_word and (not on_cooldown(message.author.id))
+                image_path = os.environ['img_path'] + config_instance["image_name"]
                 with open(image_path, 'rb') as image_file:
                         image = discord.File(image_file)
                         await message.reply(config_instance["custom_message"], file=image)
