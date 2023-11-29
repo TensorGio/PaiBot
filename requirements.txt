@@ -1,7 +1,4 @@
-py-cord
-psutil
-python-dotenv
-Pillow
-numpy
-
-
+py-cord==2.4.1
+numpy==1.26.2
+Pillow==10.1.0
+python-dotenv==1.0.0
