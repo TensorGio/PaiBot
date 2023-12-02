@@ -159,7 +159,7 @@ async def paidocs(ctx):
 async def ask_to_pai(ctx: discord.ApplicationContext, user: discord.User):
     ask_data = load_command("pergunta")
 
-    if user_equals(ctx.author, bot.user) and (not on_cooldown(ctx.author.id)):
+    if user_equals(bot.user, user) and (not on_cooldown(ctx.author.id)):
         await ctx.respond('marcando o bot tá de sacanagem')
         return
 
@@ -179,8 +179,8 @@ async def ask_to_pai(ctx: discord.ApplicationContext, user: discord.User):
         await ctx.respond('👍')
 
 
-def user_equals(author, user):
-    return user is not None and user.id == author.id
+def user_equals(needle, haystack):
+    return needle and haystack is not None and needle.id == haystack.id
 
 
 def generate_message(command):
