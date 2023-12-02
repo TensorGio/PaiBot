@@ -51,5 +51,19 @@
       "keywords": ["requisitos", "requisito"],
       "image_name": "requisito.png"
     }
+  ],
+  "commands": [
+	{
+		"name": "pergunta",
+		"description": "Links para ensinar as pessoas a perguntarem direito",
+		"custom_message": "pergunta direito, filhão",
+		"image_name": "",
+		"links": [
+			"https://dontasktoask.com/",
+			"https://nohello.net/en/",
+			"https://xyproblem.info/",
+			"http://catb.org/~esr/faqs/smart-questions.html"
+		]
+	}
   ]
 }
