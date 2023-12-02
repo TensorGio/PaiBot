@@ -60,7 +60,6 @@ def on_cooldown(id):
     else:
         return True
 
-
 def flood_msg_check():
     choice = np.random.randint(1, 11)
     if choice == 1:
@@ -130,7 +129,7 @@ async def on_message(message):
             elif match_word and flood_msg_check():
                 await message.reply('para de floodar seu desgraçado')
 
-    # check for mention
+    # check for mention and @everyone
     if bot.user.mentioned_in(message) and (not on_cooldown(message.author.id)):
         choose = np.random.randint(1, 4)
         if choose == 1:
@@ -160,15 +159,15 @@ async def paidocs(ctx):
 async def ask_to_pai(ctx: discord.ApplicationContext, user: discord.User):
     ask_data = load_command("pergunta")
 
-    if user is not None and user.id == bot.user.id:
+    if user_equals(ctx.author, bot.user) and (not on_cooldown(ctx.author.id)):
         await ctx.respond('marcando o bot tá de sacanagem')
         return
 
-    if user is not None and user.id == ctx.author.id:
+    if user_equals(ctx.author, user) and (not on_cooldown(ctx.author.id)):
         await ctx.respond('marcando você mesmo tá de sacanagem')
         return
 
-    if ask_data is not None:
+    if ask_data is not None and (not on_cooldown(ctx.author.id)):
         if ask_data["image_name"] != "" and ask_data["image_name"] is not None:
             with open(os.environ['IMG_PATH'] + ask_data["image_name"], 'rb') as image_file:
                 image = discord.File(image_file)
@@ -177,7 +176,11 @@ async def ask_to_pai(ctx: discord.ApplicationContext, user: discord.User):
             await ctx.respond(f'<@{user.id}>' + generate_message(ask_data))
         print(f'Aks to pai command triggered by {ctx.author.name}')
     else:
-        await ctx.respond('o admin não configurou o comando direito, pergunta pra ele')
+        await ctx.respond('👍')
+
+
+def user_equals(author, user):
+    return user is not None and user.id == author.id
 
 
 def generate_message(command):
